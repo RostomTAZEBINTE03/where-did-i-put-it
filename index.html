@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Where Did I Put It?</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <header class="app-header">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    <i data-lucide="package"></i>
+                </div>
+
+                <div class="brand-text">
+                    <h1>Where Did I Put It?</h1>
+                    <p>Your personal belongings manager</p>
+                </div>
+            </div>
+
+
+        </header>
+
+
+        <nav class="main-navigation">
+
+            <button class="nav-btn active" data-page="add-page">
+                <i data-lucide="plus-circle"></i>
+                <span>Add Item</span>
+            </button>
+
+            <button class="nav-btn" data-page="find-page">
+                <i data-lucide="search"></i>
+                <span>Find Item</span>
+            </button>
+
+            <button class="nav-btn" data-page="belongings-page">
+                <i data-lucide="package-open"></i>
+                <span>My Belongings</span>
+            </button>
+
+        </nav>
+
+
+        <main class="main-content">
+
+            <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+            <div id="delete-modal" class="modal-overlay" hidden>
+
+                <div class="delete-modal">
+
+                    <h2>Delete this item?</h2>
+
+                    <p id="delete-modal-message">
+                        Are you sure you want to delete this item?
+                    </p>
+
+                    <div class="modal-actions">
+
+                        <button id="cancel-delete-btn" type="button">
+                            Cancel
+                        </button>
+
+                        <button id="confirm-delete-btn" type="button">
+                            <i data-lucide="trash-2"></i>
+                            Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <section id="add-page" class="page active-page">
+
+                <div class="page-heading">
+                    <h2>Welcome</h2>
+
+                    <p>
+                        Keep everything organized and always know
+                        where your belongings are
+                    </p>
+                </div>
+
+                <div class="dashboard-stats">
+
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i data-lucide="package"></i>
+                        </div>
+
+                        <div>
+                            <h3 id="total-items-count">0</h3>
+                            <p>Total belongings</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i data-lucide="house"></i>
+                        </div>
+
+                        <div>
+                            <h3 id="total-rooms-count">0</h3>
+                            <p>Rooms used</p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <section class="content-card add-item-section">
+
+                        <div class="section-heading">
+                            <div class="section-icon">
+                                <i data-lucide="package-plus"></i>
+                            </div>
+
+                            <div>
+                                <h2 id="form-heading">Add a New Item</h2>
+
+                                <p id="form-description">
+                                    Record where you put your belongings
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="editing-item-info" class="editing-item-info" hidden>
+                            <i data-lucide="pencil"></i>
+
+                            <div>
+                                <span>Currently editing</span>
+                                <strong id="editing-item-name"></strong>
+                            </div>
+                        </div>
+
+                    <form id="item-form">
+
+                        <div class="form-group">
+                            <label for="item-name">Item Name</label>
+
+                            <input
+                                type="text"
+                                id="item-name"
+                                placeholder="Enter item name..."
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-category">Category</label>
+
+                            <select id="item-category" required>
+                                <option value="">Choose category....</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Documents">Documents</option>
+                                <option value="Accessories">Accessories</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-room">Room</label>
+
+                            <select id="item-room" required>
+                                <option value="">Choose room....</option>
+                                <option value="Bedroom">Bedroom</option>
+                                <option value="Living Room">Living Room</option>
+                                <option value="Kitchen">Kitchen</option>
+                                <option value="Office">Office</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="item-location">Exact Location</label>
+
+                            <input
+                                type="text"
+                                id="item-location"
+                                placeholder="Exact Location..."
+                                required
+                            >
+                        </div>
+
+                        <div class="form-actions">
+
+                            <button type="submit" id="submit-btn" class="primary-btn">
+                                <i data-lucide="plus"></i>
+                                Add Item
+                            </button>
+
+                            <button
+                                type="button"
+                                id="cancel-edit-btn"
+                                class="secondary-btn"
+                                hidden
+                            >
+                                Cancel
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </section>
+
+            </section>
+
+
+            <section id="find-page" class="page">
+
+                <div class="page-heading">
+                    <h2>Find Your Items</h2>
+
+                    <p>
+                        Search and filter your belongings to find
+                        exactly what you're looking for
+                    </p>
+                </div>
+
+                <section class="content-card search-section">
+
+                    <div class="form-group">
+                        <label for="search-input">Search</label>
+
+                        <input
+                            type="text"
+                            id="search-input"
+                            placeholder="Search by item name..."
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category-filter">Category</label>
+
+                        <select id="category-filter">
+                            <option value="">All Categories</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Clothing">Clothing</option>
+                            <option value="Documents">Documents</option>
+                            <option value="Accessories">Accessories</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="room-filter">Room</label>
+
+                        <select id="room-filter">
+                            <option value="">All Rooms</option>
+                            <option value="Bedroom">Bedroom</option>
+                            <option value="Living Room">Living Room</option>
+                            <option value="Kitchen">Kitchen</option>
+                            <option value="Office">Office</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                </section>
+
+                <div id="search-results-container"></div>
+
+            </section>
+
+
+            <section id="belongings-page" class="page">
+
+                <div class="page-heading">
+                    <h2>My Belongings</h2>
+
+                    <p>
+                        All your belongings organized in one place
+                    </p>
+                </div>
+
+                <section class="content-card items-section">
+
+                    <div class="items-header">
+                        <h2>All Items</h2>
+
+                        <span id="items-count">0 items</span>
+                    </div>
+
+                    <div id="items-container"></div>
+
+                </section>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
